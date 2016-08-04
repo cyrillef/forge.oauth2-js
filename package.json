@@ -1,0 +1,45 @@
+{
+  "name": "forge-oauth2",
+  "version": "1.0.0",
+  "description": "Asynchronous Node.js library for the Autodesk Forge oAuth2 implementation",
+  "homepage": "https://developer.autodesk.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/autodesk-forge/forge.oauth2-js"
+  },
+  "bugs": {
+    "url": "https://github.com/autodesk-forge/forge.oauth2-js/issues"
+  },
+  "author": "",
+  "contributors": [
+    "Cyrille Fauvel <cyrille@autodesk.com>"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive"
+  },
+  "files": [
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "framework",
+    "lmv",
+    "forge",
+    "autodesk",
+    "rest",
+    "restful",
+    "api"
+  ],
+  "dependencies": {
+    "request": "2.74.0"
+  },
+  "devDependencies": {
+    "mocha": "~2.3.4",
+    "sinon": "1.17.3",
+    "expect.js": "~0.3.1"
+  },
+  "optionalDependencies": {
+  }
+}
