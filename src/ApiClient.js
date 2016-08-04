@@ -68,6 +68,8 @@
      * @type {Array.<String>}
      */
     this.authentications = {
+      'oauth2_access_code': {type: 'oauth2'},
+      'oauth2_application': {type: 'oauth2'}
     };
     /**
      * The default HTTP headers to be included for all API calls.
@@ -372,7 +374,7 @@
     var contentType =this.jsonPreferredMime (contentTypes) ;
     if ( contentType ) {
       requestParams.headers ['Content-Type'] =contentType ;
-    } else if ( !request.header ['Content-Type'] ) {
+    } else if ( !request.headers || !request.headers ['Content-Type'] ) {
       requestParams.headers ['Content-Type'] ='application/json' ;
     }
 

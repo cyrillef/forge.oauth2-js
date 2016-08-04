@@ -88,7 +88,7 @@
       var formParams = {
       };
 
-      var authNames = [];
+      var authNames = ['oauth2_access_code'];
       var contentTypes = [];
       var accepts = ['application/json'];
       var returnType = UserProfile;
