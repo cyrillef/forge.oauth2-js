@@ -46,7 +46,6 @@
   /**
    * TwoLegged service.
    * @module api/TwoLeggedApi
-   * @version 1.0.0
    */
 
   /**

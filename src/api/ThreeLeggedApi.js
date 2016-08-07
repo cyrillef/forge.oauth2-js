@@ -46,7 +46,6 @@
   /**
    * ThreeLegged service.
    * @module api/ThreeLeggedApi
-   * @version 1.0.0
    */
 
   /**

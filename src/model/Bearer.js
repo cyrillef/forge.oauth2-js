@@ -49,7 +49,6 @@
   /**
    * The Bearer model module.
    * @module model/Bearer
-   * @version 1.0.0
    */
 
   /**

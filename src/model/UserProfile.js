@@ -49,7 +49,6 @@
   /**
    * The UserProfile model module.
    * @module model/UserProfile
-   * @version 1.0.0
    */
 
   /**

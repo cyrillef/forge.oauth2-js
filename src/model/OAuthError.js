@@ -49,7 +49,6 @@
   /**
    * The OAuthError model module.
    * @module model/OAuthError
-   * @version 1.0.0
    */
 
   /**

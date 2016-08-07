@@ -46,7 +46,6 @@
   /**
    * Informational service.
    * @module api/InformationalApi
-   * @version 1.0.0
    */
 
   /**
