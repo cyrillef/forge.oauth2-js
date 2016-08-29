@@ -79,6 +79,7 @@
      * @param {module:api/ThreeLeggedApi~authorizeCallback} callback The callback function, accepting three arguments: error, data, response
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}
      */
+    this.authorizeEndPoint ='/authentication/v1/authorize' ;
     this.authorize = function(clientId, responseType, redirectUri, opts, callback) {
       opts = opts || {};
       var postBody = null;
@@ -119,11 +120,11 @@
       var returnType = null;
 
       return this.apiClient.callApi(
-        '/authentication/v1/authorize', 'GET',
+        this.authorizeEndPoint, 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-    }
+    };
 
     /**
      * Callback function to receive the result of the gettoken operation.
@@ -145,6 +146,7 @@
      * data is of type: {@link module:model/Bearer}
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Bearer}
      */
+    this.gettokenEndPoint ='/authentication/v1/gettoken' ;
     this.gettoken = function(clientId, clientSecret, grantType, code, redirectUri, callback) {
       var postBody = null;
 
@@ -194,11 +196,11 @@
       var returnType = Bearer;
 
       return this.apiClient.callApi(
-        '/authentication/v1/gettoken', 'POST',
+        this.gettokenEndPoint, 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-    }
+    };
 
     /**
      * Callback function to receive the result of the refreshtoken operation.
@@ -221,6 +223,7 @@
      * data is of type: {@link module:model/Bearer}
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Bearer}
      */
+    this.refreshtokenEndPoint ='/authentication/v1/refreshtoken' ;
     this.refreshtoken = function(clientId, clientSecret, grantType, refreshToken, opts, callback) {
       opts = opts || {};
       var postBody = null;
@@ -266,11 +269,11 @@
       var returnType = Bearer;
 
       return this.apiClient.callApi(
-        '/authentication/v1/refreshtoken', 'POST',
+        this.refreshtokenEndPoint, 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-    }
+    };
   };
 
   return exports;

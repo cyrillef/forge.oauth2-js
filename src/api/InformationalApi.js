@@ -74,6 +74,7 @@
      * data is of type: {@link module:model/UserProfile}
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/UserProfile}
      */
+    this.aboutMeEndPoint ='/userprofile/v1/users/@me' ;
     this.aboutMe = function(callback) {
       var postBody = null;
 
@@ -93,11 +94,11 @@
       var returnType = UserProfile;
 
       return this.apiClient.callApi(
-        '/userprofile/v1/users/@me', 'GET',
+        this.aboutMeEndPoint, 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-    }
+    };
   };
 
   return exports;

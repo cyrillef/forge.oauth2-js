@@ -79,6 +79,7 @@
      * data is of type: {@link module:model/Bearer}
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Bearer}
      */
+    this.authenticateEndPoint ='/authentication/v1/authenticate' ;
     this.authenticate = function(clientId, clientSecret, grantType, opts, callback) {
       opts = opts || {};
       var postBody = null;
@@ -118,11 +119,11 @@
       var returnType = Bearer;
 
       return this.apiClient.callApi(
-        '/authentication/v1/authenticate', 'POST',
+        this.authenticateEndPoint, 'POST',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, callback
       );
-    }
+    };
   };
 
   return exports;
