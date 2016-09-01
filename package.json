@@ -1,6 +1,6 @@
 {
   "name": "forge-oauth2",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Asynchronous Node.js library for the Autodesk Forge oAuth2 implementation.",
   "homepage": "https://developer.autodesk.com/",
   "repository": {
