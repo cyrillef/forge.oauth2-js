@@ -55,9 +55,9 @@
    * @param {module:ApiClient} apiClient Optional API client implementation to use,
    * default to {@link module:ApiClient#instance} if unspecified.
    */
+  var ForgeSDK = require('forge-apis');
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
-
 
     /**
      * Callback function to receive the result of the authorize operation.
@@ -82,30 +82,19 @@
     this.authorizeEndPoint ='/authentication/v1/authorize' ;
     this.authorize = function(clientId, responseType, redirectUri, opts, callback) {
       opts = opts || {};
-      var postBody = null;
 
       // verify the required parameter 'clientId' is set
-      if (clientId == undefined || clientId == null) {
+      if (clientId === undefined || clientId === null)
         throw "Missing the required parameter 'clientId' when calling authorize";
-      }
 
       // verify the required parameter 'responseType' is set
-      if (responseType == undefined || responseType == null) {
+      if (responseType === undefined || responseType === null)
         throw "Missing the required parameter 'responseType' when calling authorize";
-      }
 
       // verify the required parameter 'redirectUri' is set
-      if (redirectUri == undefined || redirectUri == null) {
+      if (redirectUri === undefined || redirectUri === null)
         throw "Missing the required parameter 'redirectUri' when calling authorize";
-      }
 
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
       var formParams = {
         'client_id': clientId,
         'response_type': responseType,
@@ -113,17 +102,16 @@
         'scope': opts['scope'],
         'state': opts['state']
       };
-
-      var authNames = [];
-      var contentTypes = ['application/x-www-form-urlencoded'];
-      var accepts = ['application/json'];
-      var returnType = null;
-
-      return this.apiClient.callApi(
-        this.authorizeEndPoint, 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+      var params = [] ;
+      for (var key in formParams) {
+        if ( formParams [key] === undefined || formParams [key] === null )
+          continue ;
+        params.push (formParams [key] + '=' + encodeURI(formParams [key])) ;
+      }
+      var url =this.authorizeEndPoint + '?' + params.join ('&') ;
+      if ( callback !== undefined )
+        callback (null, url) ;
+      return (url) ;
     };
 
     /**
@@ -148,58 +136,17 @@
      */
     this.gettokenEndPoint ='/authentication/v1/gettoken' ;
     this.gettoken = function(clientId, clientSecret, grantType, code, redirectUri, callback) {
-      var postBody = null;
+  		var req = new ForgeSDK.AuthClientThreeLegged(clientId, clientSecret, redirectUri, scope);
+      var pr = req.gettoken (code) ;
+			if (callback === undefined) {
+				return (new Promise(function (resolve, reject) {
+					pr.then(function (result) { resolve(result); })
+						.catch(function (err) { reject(err); });
+				})) ;
+			}
 
-      // verify the required parameter 'clientId' is set
-      if (clientId == undefined || clientId == null) {
-        throw "Missing the required parameter 'clientId' when calling gettoken";
-      }
-
-      // verify the required parameter 'clientSecret' is set
-      if (clientSecret == undefined || clientSecret == null) {
-        throw "Missing the required parameter 'clientSecret' when calling gettoken";
-      }
-
-      // verify the required parameter 'grantType' is set
-      if (grantType == undefined || grantType == null) {
-        throw "Missing the required parameter 'grantType' when calling gettoken";
-      }
-
-      // verify the required parameter 'code' is set
-      if (code == undefined || code == null) {
-        throw "Missing the required parameter 'code' when calling gettoken";
-      }
-
-      // verify the required parameter 'redirectUri' is set
-      if (redirectUri == undefined || redirectUri == null) {
-        throw "Missing the required parameter 'redirectUri' when calling gettoken";
-      }
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-        'client_id': clientId,
-        'client_secret': clientSecret,
-        'grant_type': grantType,
-        'code': code,
-        'redirect_uri': redirectUri
-      };
-
-      var authNames = [];
-      var contentTypes = ['application/x-www-form-urlencoded'];
-      var accepts = ['application/json'];
-      var returnType = Bearer;
-
-      return this.apiClient.callApi(
-        this.gettokenEndPoint, 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+			pr.then(function (result) { callback(null, result); })
+				.catch(function (err) { callback(err, null); });
     };
 
     /**
@@ -225,54 +172,19 @@
      */
     this.refreshtokenEndPoint ='/authentication/v1/refreshtoken' ;
     this.refreshtoken = function(clientId, clientSecret, grantType, refreshToken, opts, callback) {
-      opts = opts || {};
-      var postBody = null;
+      var scope =opts.scope.split(' ');
+      var credential ={ refresh_token: refresh_token };
+  		var req = new ForgeSDK.AuthClientThreeLegged(clientId, clientSecret, redirectUri, scope);
+      var pr = req.refreshToken (credential) ;
+			if (callback === undefined) {
+				return (new Promise(function (resolve, reject) {
+					pr.then(function (result) { resolve(result); })
+						.catch(function (err) { reject(err); });
+				})) ;
+			}
 
-      // verify the required parameter 'clientId' is set
-      if (clientId == undefined || clientId == null) {
-        throw "Missing the required parameter 'clientId' when calling refreshtoken";
-      }
-
-      // verify the required parameter 'clientSecret' is set
-      if (clientSecret == undefined || clientSecret == null) {
-        throw "Missing the required parameter 'clientSecret' when calling refreshtoken";
-      }
-
-      // verify the required parameter 'grantType' is set
-      if (grantType == undefined || grantType == null) {
-        throw "Missing the required parameter 'grantType' when calling refreshtoken";
-      }
-
-      // verify the required parameter 'refreshToken' is set
-      if (refreshToken == undefined || refreshToken == null) {
-        throw "Missing the required parameter 'refreshToken' when calling refreshtoken";
-      }
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-        'client_id': clientId,
-        'client_secret': clientSecret,
-        'grant_type': grantType,
-        'refresh_token': refreshToken,
-        'scope': opts['scope']
-      };
-
-      var authNames = [];
-      var contentTypes = ['application/x-www-form-urlencoded'];
-      var accepts = ['application/json'];
-      var returnType = Bearer;
-
-      return this.apiClient.callApi(
-        this.refreshtokenEndPoint, 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+			pr.then(function (result) { callback(null, result); })
+				.catch(function (err) { callback(err, null); });
     };
   };
 

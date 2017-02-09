@@ -55,10 +55,13 @@
    * @param {module:ApiClient} apiClient Optional API client implementation to use,
    * default to {@link module:ApiClient#instance} if unspecified.
    */
+  var ForgeSDK = require('forge-apis');
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
 
-
+    //this.mdClient = new ForgeSDK.InformationalApi();
+		this.oauth2_access_code = new ForgeSDK.AuthClientThreeLegged('1234', '1223', 'http://localhost/', ['data:read']);
+    
     /**
      * Callback function to receive the result of the aboutMe operation.
      * @callback module:api/InformationalApi~aboutMeCallback
@@ -76,28 +79,22 @@
      */
     this.aboutMeEndPoint ='/userprofile/v1/users/@me' ;
     this.aboutMe = function(callback) {
-      var postBody = null;
+			//this.apiClient.applyToAuthObjects (this.oauth2_access_code, this.oauth2_application, ['oauth2_access_code']) ;
+			//var oauth = this.apiClient.getAuthObject(this.oauth2_access_code, this.oauth2_application, ['oauth2_access_code']);
+			//var pr = this.mdClient.aboutMe(oauth, oauth.getCredentials());
+			//if (callback === undefined) {
+			//	return (new Promise(function (resolve, reject) {
+			//		pr.then(function (result) { resolve(result.body); })
+			//			.catch(function (err) { reject(err); });
+			//	})) ;
+			//}
+      //
+			//pr.then(function (result) { callback(null, result); })
+			//	.catch(function (err) { callback(err, null); });
 
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-      };
-
-      var authNames = ['oauth2_access_code'];
-      var contentTypes = [];
-      var accepts = ['application/json'];
-      var returnType = UserProfile;
-
-      return this.apiClient.callApi(
-        this.aboutMeEndPoint, 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+      if (callback === undefined)
+        return (null) ;
+      callback (null, null) ;
     };
   };
 

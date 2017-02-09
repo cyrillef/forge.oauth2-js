@@ -55,9 +55,9 @@
    * @param {module:ApiClient} apiClient Optional API client implementation to use,
    * default to {@link module:ApiClient#instance} if unspecified.
    */
+  var ForgeSDK = require('forge-apis');
   var exports = function(apiClient) {
     this.apiClient = apiClient || ApiClient.instance;
-
 
     /**
      * Callback function to receive the result of the authenticate operation.
@@ -81,48 +81,18 @@
      */
     this.authenticateEndPoint ='/authentication/v1/authenticate' ;
     this.authenticate = function(clientId, clientSecret, grantType, opts, callback) {
-      opts = opts || {};
-      var postBody = null;
+      var scope =opts.scope.split(' ');
+  		var req = new ForgeSDK.AuthClientTwoLegged(clientId, clientSecret, scope, false);
+      var pr = req.authenticate () ;
+			if (callback === undefined) {
+				return (new Promise(function (resolve, reject) {
+					pr.then(function (result) { resolve(result); })
+						.catch(function (err) { reject(err); });
+				})) ;
+			}
 
-      // verify the required parameter 'clientId' is set
-      if (clientId == undefined || clientId == null) {
-        throw "Missing the required parameter 'clientId' when calling authenticate";
-      }
-
-      // verify the required parameter 'clientSecret' is set
-      if (clientSecret == undefined || clientSecret == null) {
-        throw "Missing the required parameter 'clientSecret' when calling authenticate";
-      }
-
-      // verify the required parameter 'grantType' is set
-      if (grantType == undefined || grantType == null) {
-        throw "Missing the required parameter 'grantType' when calling authenticate";
-      }
-
-
-      var pathParams = {
-      };
-      var queryParams = {
-      };
-      var headerParams = {
-      };
-      var formParams = {
-        'client_id': clientId,
-        'client_secret': clientSecret,
-        'grant_type': grantType,
-        'scope': opts['scope']
-      };
-
-      var authNames = [];
-      var contentTypes = ['application/x-www-form-urlencoded'];
-      var accepts = ['application/json'];
-      var returnType = Bearer;
-
-      return this.apiClient.callApi(
-        this.authenticateEndPoint, 'POST',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, callback
-      );
+			pr.then(function (result) { callback(null, result); })
+				.catch(function (err) { callback(err, null); });
     };
   };
 
