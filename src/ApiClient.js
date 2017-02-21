@@ -55,6 +55,14 @@
    * @class
    */
   var exports = function () {
+
+	  /**
+	   * The base URL against which to resolve every API call's (relative) path.
+	   * @type {String}
+	   * @default https://developer.api.autodesk.com/
+	   */
+	  this.basePath = 'https://developer.api.autodesk.com/'.replace(/\/+$/, '');
+
     /**
      * The authentication methods to be included for all API calls.
      * @type {Array.<String>}

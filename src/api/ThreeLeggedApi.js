@@ -135,9 +135,11 @@
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Bearer}
      */
     this.gettokenEndPoint ='/authentication/v1/gettoken' ;
-    this.gettoken = function(clientId, clientSecret, grantType, code, redirectUri, callback) {
-  		var req = new ForgeSDK.AuthClientThreeLegged(clientId, clientSecret, redirectUri, scope);
-      var pr = req.gettoken (code) ;
+	  this.gettoken = function(clientId, clientSecret, grantType, code, redirectUri, callback, scope) {
+		  var scope =scope || 'data:read' ;
+		  scope =scope.split(' ')
+		  var req = new ForgeSDK.AuthClientThreeLegged(clientId, clientSecret, redirectUri, scope);
+      var pr = req.getToken (code) ;
 			if (callback === undefined) {
 				return (new Promise(function (resolve, reject) {
 					pr.then(function (result) { resolve(result); })
@@ -171,12 +173,12 @@
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Bearer}
      */
     this.refreshtokenEndPoint ='/authentication/v1/refreshtoken' ;
-    this.refreshtoken = function(clientId, clientSecret, grantType, refreshToken, opts, callback) {
-      var scope =opts.scope.split(' ');
-      var credential ={ refresh_token: refresh_token };
-  		var req = new ForgeSDK.AuthClientThreeLegged(clientId, clientSecret, redirectUri, scope);
-      var pr = req.refreshToken (credential) ;
-			if (callback === undefined) {
+	  this.refreshtoken = function(clientId, clientSecret, grantType, refreshToken, opts, callback) {
+		  var scope =( typeof opts === 'string' ? opts : opts.scope).split(' ');
+		  var credential ={ refresh_token: refreshToken };
+		  var req = new ForgeSDK.AuthClientThreeLegged(clientId, clientSecret, callback, scope);
+		  var pr = req.refreshToken (credential) ;
+    		if (callback === undefined) {
 				return (new Promise(function (resolve, reject) {
 					pr.then(function (result) { resolve(result); })
 						.catch(function (err) { reject(err); });
