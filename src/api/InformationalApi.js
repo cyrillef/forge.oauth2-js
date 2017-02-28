@@ -60,6 +60,7 @@
     this.apiClient = apiClient || ApiClient.instance;
 
     //this.mdClient = new ForgeSDK.InformationalApi();
+	  this.mdClient = new ForgeSDK.FoldersApi();
 		this.oauth2_access_code = new ForgeSDK.AuthClientThreeLegged('1234', '1223', 'http://localhost/', ['data:read']);
     
     /**
@@ -88,15 +89,44 @@
 			//			.catch(function (err) { reject(err); });
 			//	})) ;
 			//}
-      //
+
 			//pr.then(function (result) { callback(null, result); })
 			//	.catch(function (err) { callback(err, null); });
 
-      if (callback === undefined)
-        return (null) ;
-      callback (null, null) ;
+
+		var oauth = this.apiClient.getAuthObject(this.oauth2_access_code, this.oauth2_application, ['oauth2_access_code']);
+		var pr = this.aboutMeCall(oauth, oauth.credentials);
+		if (callback === undefined) {
+			return (new Promise(function (resolve, reject) {
+				pr.then(function (result) { resolve(result.body); })
+					.catch(function (err) { reject(err); });
+			})) ;
+		}
+
+		pr.then(function (result) { callback(null, result.body); })
+			.catch(function (err) { callback(err, null); });
     };
+
+	  this.aboutMeCall = function(oauth2client, credentials) {
+		  var postBody = null;
+		  var pathParams = {};
+		  var queryParams = {};
+		  var headerParams = {};
+		  var formParams = {};
+
+		  var contentTypes = ['application/json'];
+		  var accepts = ['application/json'];
+		  var returnType = null;
+
+		  return this.mdClient.apiClient.callApi(
+			  '/userprofile/v1/users/@me', 'GET',
+			  pathParams, queryParams, headerParams, formParams, postBody,
+			  contentTypes, accepts, returnType, oauth2client, credentials
+		  );
+	  };
+
   };
 
-  return exports;
+
+	return exports;
 }));
